@@ -26,7 +26,7 @@ function createBoard(){
             square.classList.add('square')
             square.innerHTML = startPiece 
            square.firstChild?.setAttribute('draggable', 'true')
-
+            
 
             square.setAttribute('square-id', i)
            
@@ -59,3 +59,15 @@ function createBoard(){
 }
 
 createBoard()
+
+const allsquares = document.querySelectorAll("#gameboard .square")
+allsquares.forEach(square=>{
+
+square.addEventListener('draggstart', dragStart)
+
+})
+
+function dragStart(e){
+    console.log(e)
+}
+
