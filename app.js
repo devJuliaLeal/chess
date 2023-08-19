@@ -1,8 +1,10 @@
 const gameBoard = document.querySelector("#gameboard")
-const payerDisplay = document.querySelector("#player")
+const playerDisplay = document.querySelector("#player")
 const infoDisplay = document.querySelector("#info-display")
 
 const width = 8
+let playerGo = 'black'
+playerDisplay.textContent = 'black'
 
 const startPieces = [
 
@@ -32,9 +34,9 @@ function createBoard(){
            
            const row = Math.floor((63-i)/8)+1 
                 if(row %2 == 0){
-                    square.classList.add(i % 2 === 0? "beige":"brown")
+                    square.classList.add(i % 2 === 0? "red":"blue")
                 }
-                else{ square.classList.add(i % 2 === 0 ? "brown":"beige")}
+                else{ square.classList.add(i % 2 === 0 ? "blue":"red")}
                
                 if (i <= 15) {
                     const svgElement = square.querySelector('svg'); 
@@ -62,8 +64,6 @@ createBoard()
 
 const allsquares = document.querySelectorAll("#gameboard .square")
 
-
-
 allsquares.forEach(square=>{
 
 square.addEventListener('dragstart', dragStart)
@@ -74,9 +74,8 @@ square.addEventListener('drop', dragDrop)
 let startPositionId 
 let draggedElement
 
-
 function dragStart(e){
-    startPositionId = console.log(e.target.parentNode.getAttribute('square-id'))
+    startPositionId = e.target.parentNode.getAttribute('square-id')
     draggedElement = e.target
 }
 
@@ -85,12 +84,13 @@ function dragOver(e){
 
 }
 
-function dragDrop(e){
-    
-}
+//tem um erro aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+function dragDrop(e) {
+    e.stopPropagation()
 
+  // e.target.parentNode.append(draggedElement)
+  
+   e.target.append(draggedElement)
 
-
-
-
-
+  }
+ 
