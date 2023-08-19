@@ -86,11 +86,27 @@ function dragOver(e){
 
 //tem um erro aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function dragDrop(e) {
+
     e.stopPropagation()
+
+    console.log(e.target)
+    const taken = e.target.classList.contains('piece')
 
   // e.target.parentNode.append(draggedElement)
   
-   e.target.append(draggedElement)
+  // e.target.append(draggedElement)
+  changePlayer()
 
   }
+
+ function changePlayer(){
+    if (playerGo === "black"){
+        playerGo = "white"
+        playerDisplay.textContent = 'white'
+    }
+    else{
+        playerGo = "black"
+        playerDisplay.textContent = 'black'
+    }
+ } 
  
