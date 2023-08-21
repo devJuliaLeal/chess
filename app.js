@@ -92,6 +92,7 @@ function dragDrop(e) {
 
     const correctGo = draggedElement.firstChild.classList.contains(playerGo)
     const taken = e.target.classList.contains('piece')
+    const valid = checkIfValid(e.target)
     const opponentGo = playerGo === 'white' ? 'black' : 'white'
     const takenByOpponent = e.target.firstChild?.classList.contains(opponentGo)
 
@@ -107,12 +108,33 @@ function dragDrop(e) {
             setTimeout(() => infoDisplay.textContent = "", 2000)
             return
         }
+        if(valid){
+            e.target.append(draggedElement)
+            changePlayer()
+            return
+        }
     }
 
 
-  changePlayer()
-
   }
+
+function checkIfValid(target){
+    console.log(target)
+    const targetId = target.getAttribute('square-id') 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  function changePlayer(){
     if (playerGo === "black"){
