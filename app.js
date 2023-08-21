@@ -128,21 +128,23 @@ function dragDrop(e) {
             
             const starterRow = [8, 9, 10, 11, 12, 13, 14, 15];
             
-            if (starterRow.includes(startId) && startId + width * 2 === targetId || 
-            startId + width === targetId || 
-            startId + width - 1 === targetId && document.querySelector(`[square-id="${startId + width - 1}]`).firstChild ||
-            startId + width + 1 === targetId && document.querySelector(`[square-id="${startId + width + 1}]`).firstChild
-            
-            ) {
-                return true;
+            if (starterRow.includes(startId)) {
+                if (startId + width * 2 === targetId || startId + width === targetId) {
+                    return true;
+                }
+            } else {
+                if (startId + width - 1 === targetId && document.querySelector(`[square-id="${startId + width - 1}"]`).firstChild ||
+                    startId + width + 1 === targetId && document.querySelector(`[square-id="${startId + width + 1}"]`).firstChild
+                ) {
+                    return true;
+                }
             }
+            
            
             break;
       
     }
 }
-
-
 
 
 
