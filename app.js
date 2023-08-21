@@ -84,7 +84,6 @@ function dragOver(e){
 
 }
 
-//tem um erro aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function dragDrop(e) {
 
     e.stopPropagation()
@@ -117,19 +116,31 @@ function dragDrop(e) {
 
 
   }
-
-function checkIfValid(target){
-    console.log(target)
-    const targetId = target.getAttribute('square-id') 
+  function checkIfValid(target) {
+    const targetId = Number(target.getAttribute('square-id')) || Number(target.parentNode.getAttribute('square-id'));
+    const startId = Number(startPositionId);
+    const piece = draggedElement.id;
+    console.log('targetId', targetId);
+    console.log('startId', startId);
+    console.log(piece);
+    switch (piece) {
+        case 'pawn':
+            
+            const starterRow = [8, 9, 10, 11, 12, 13, 14, 15];
+            
+            if (starterRow.includes(startId) && startId + width * 2 === targetId || 
+            startId + width === targetId || 
+            startId + width - 1 === targetId && document.querySelector(`[square-id="${startId + width - 1}]`).firstChild ||
+            startId + width + 1 === targetId && document.querySelector(`[square-id="${startId + width + 1}]`).firstChild
+            
+            ) {
+                return true;
+            }
+           
+            break;
+      
+    }
 }
-
-
-
-
-
-
-
-
 
 
 
