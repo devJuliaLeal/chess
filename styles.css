@@ -47,3 +47,12 @@ path{
 .white{
     fill:antiquewhite;
 }
+.square.valid-move::before {
+    content: "\2022"; /* Usando um bullet point como bolinha */
+    font-size: 20px; /* Tamanho da bolinha */
+    color: #00ff00; /* Cor da bolinha */
+    position: absolute;
+    top: 50%; /* Posição vertical */
+    left: 50%; /* Posição horizontal */
+    transform: translate(-50%, -50%); /* Centralizar a bolinha na casa */
+}
