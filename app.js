@@ -122,7 +122,8 @@ function dragDrop(e) {
     const piece = draggedElement.id;
     const rowDiff = Math.floor(targetId / width) - Math.floor(startId / width);
     const colDiff = targetId % width - startId % width;
-
+    const opponentGo = playerGo === 'white' ? 'black' : 'white';
+  
 
     switch (piece) {
 //=================================================PEAO============================================================ 
@@ -213,33 +214,36 @@ case 'queen':
         while (currentRow !== Math.floor(targetId / width) || currentCol !== targetId % width) {
             const cell = document.querySelector(`[square-id="${currentRow * width + currentCol}"]`);
             if (cell.firstChild) {
-                return false; // There's a piece in the way
+                return false; 
             }
             
             currentRow += rowDirection;
             currentCol += colDirection;
         }
 
-        return true; // All clear for the queen to move
+        return true; 
     }
     break;
-//=============================================REI E ROQUE=========================================================================
+//=============================================REI========================================================================
 case 'king':
-    const validOffsets = [-9, -8, -7, -1, 1, 7, 8, 9];
-    const offset = targetId - startId;
-
-    if (validOffsets.includes(offset)) {
-        const targetSquare = document.querySelector(`[square-id="${targetId}"]`);
-
-        // Verifique se a casa de destino está vazia ou tem uma peça do oponente
-        if (!targetSquare.firstChild || targetSquare.firstChild.classList.contains(opponentGo)) {
-            return true;
-        }
-        break;
-    }
     
+    if (
+        startId + 1 === targetId ||
+        startId - 1 === targetId||
+        startId + width  === targetId ||
+        startId - width  === targetId ||
+        startId +width +1 === targetId ||
+        startId +width -1 === targetId ||
+        startId -width -1 === targetId ||
+        startId -width +1 === targetId 
 
-}
+        ){
+            return true
+        }
+    break;
+
+
+}}
   
 
 
