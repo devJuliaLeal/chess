@@ -3,8 +3,8 @@ const playerDisplay = document.querySelector("#player")
 const infoDisplay = document.querySelector("#info-display")
 
 const width = 8
-let playerGo = 'black'
-playerDisplay.textContent = 'black'
+let playerGo = 'white'
+playerDisplay.textContent = 'white'
 
 const startPieces = [
 
@@ -38,16 +38,16 @@ function createBoard(){
                 }
                 else{ square.classList.add(i % 2 === 0 ? "blue":"red")}
                
-                if (i <= 15) {
-                    const svgElement = square.querySelector('svg'); 
-                    if (svgElement) {
-                        svgElement.classList.add('black');
-                    }
-                }
                 if (i >= 48) {
                     const svgElement = square.querySelector('svg'); 
                     if (svgElement) {
                         svgElement.classList.add('white');
+                    }
+                }
+                if (i <= 15) {
+                    const svgElement = square.querySelector('svg'); 
+                    if (svgElement) {
+                        svgElement.classList.add('black');
                     }
                 }
 
@@ -90,7 +90,7 @@ function dragDrop(e) {
     const correctGo = draggedElement.firstChild.classList.contains(playerGo);
     const taken = e.target.classList.contains('piece');
     const valid = checkIfValid(e.target);
-    const opponentGo = playerGo === 'white' ? 'black' : 'white';
+    const opponentGo = playerGo === 'black' ? 'white' : 'black';
     const takenByOpponent = e.target.firstChild?.classList.contains(opponentGo);
 
     if (correctGo) {
@@ -122,23 +122,23 @@ function dragDrop(e) {
     const piece = draggedElement.id;
     const rowDiff = Math.floor(targetId / width) - Math.floor(startId / width);
     const colDiff = targetId % width - startId % width;
-    const opponentGo = playerGo === 'white' ? 'black' : 'white';
+    const opponentGo = playerGo === 'black' ? 'white' : 'black';
   
 
     switch (piece) {
 //=================================================PEAO============================================================ 
-        case 'pawn':
-            
-            const starterRow = [8, 9, 10, 11, 12, 13, 14, 15];
-            if (
-                starterRow.includes(startId) && startId + width * 2 === targetId ||
-                (startId + width === targetId && !document.querySelector(`[square-id="${startId + width}"]`).firstChild) || 
-                (startId + width - 1 === targetId && document.querySelector(`[square-id="${startId + width - 1}"]`).firstChild) || 
-                (startId + width + 1 === targetId && document.querySelector(`[square-id="${startId + width + 1}"]`).firstChild)
-            ) {
-                return true;
-            }
-            break;
+case 'pawn':
+    const starterRow = [48, 49, 50, 51, 52, 53, 54, 55]; // Rows where pawns start at the bottom
+    if (
+        starterRow.includes(startId) && startId - width * 2 === targetId ||
+        (startId - width === targetId && !document.querySelector(`[square-id="${startId - width}"]`).firstChild) ||
+        (startId - width - 1 === targetId && document.querySelector(`[square-id="${startId - width - 1}"]`).firstChild) ||
+        (startId - width + 1 === targetId && document.querySelector(`[square-id="${startId - width + 1}"]`).firstChild)
+    ) {
+        return true;
+    }
+    break;
+ 
 //===============================================CAVALO========================================================================                   
         case 'knight': 
         if(
@@ -226,37 +226,89 @@ case 'queen':
     break;
 //=============================================REI========================================================================
 case 'king':
-    
+    const isKingMoved = false; 
     if (
         startId + 1 === targetId ||
-        startId - 1 === targetId||
-        startId + width  === targetId ||
-        startId - width  === targetId ||
-        startId +width +1 === targetId ||
-        startId +width -1 === targetId ||
-        startId -width -1 === targetId ||
-        startId -width +1 === targetId 
+        startId - 1 === targetId ||
+        startId + width === targetId ||
+        startId - width === targetId ||
+        startId + width + 1 === targetId ||
+        startId + width - 1 === targetId ||
+        startId - width - 1 === targetId ||
+        startId - width + 1 === targetId
+    ) {
+        return true;
+    }
+    
+    
+    const kingRow = Math.floor(startId / width);
+    const targetRow = Math.floor(targetId / width);
+    const kingCol = startId % width;
+    const targetCol = targetId % width;
 
-        ){
-            return true
+    
+    if (!isKingMoved && targetCol === kingCol + 2 && kingRow === targetRow) {
+        
+        if (
+            !document.querySelector(`[square-id="${startId + 1}"]`).firstChild &&
+            !document.querySelector(`[square-id="${startId + 2}"]`).firstChild
+        ) {
+            
+            const rookSquare = document.querySelector(`[square-id="${startId + 3}"]`);
+            const rookPiece = rookSquare.firstChild;
+            rookSquare.removeChild(rookPiece);
+            const targetRookSquare = document.querySelector(`[square-id="${startId + 1}"]`);
+            targetRookSquare.appendChild(rookPiece);
+
+            return true; 
         }
+    }
+
+   
+    if (!isKingMoved && targetCol === kingCol - 2 && kingRow === targetRow) {
+       
+        if (
+            !document.querySelector(`[square-id="${startId - 1}"]`).firstChild &&
+            !document.querySelector(`[square-id="${startId - 2}"]`).firstChild &&
+            !document.querySelector(`[square-id="${startId - 3}"]`).firstChild
+        ) {
+           
+            const rookSquare = document.querySelector(`[square-id="${startId - 4}"]`);
+            const rookPiece = rookSquare.firstChild;
+            rookSquare.removeChild(rookPiece);
+            const targetRookSquare = document.querySelector(`[square-id="${startId - 1}"]`);
+            targetRookSquare.appendChild(rookPiece);
+
+            return true; 
+        }
+    }
     break;
 
-
-}}
-  
-
-
+  }
+  }
  function changePlayer(){
-    if (playerGo === "black"){
+    if (playerGo === "white"){
         reverseIds()
-        playerGo = "white"
-        playerDisplay.textContent = 'white'
+        playerGo = "black"
+        playerDisplay.textContent = 'black'
     }
     else{
         revertIds()
+        playerGo = "white"
+        playerDisplay.textContent = 'white'
+    }
+ } 
+
+ function changePlayer(){
+    if (playerGo === "white"){
+        reverseIds()
         playerGo = "black"
         playerDisplay.textContent = 'black'
+    }
+    else{
+        revertIds()
+        playerGo = "white"
+        playerDisplay.textContent = 'white'
     }
  } 
 
